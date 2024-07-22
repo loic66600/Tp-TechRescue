@@ -1,0 +1,66 @@
+<html>
+	<head>
+		{% block stylesheets %}
+
+			{{ encore_entry_link_tags('app') }}
+
+			{# <!-- Vendor CSS Files --> #}
+			<link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+			<link
+			href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+			{# <link href="assets/vendor/aos/aos.css" rel="stylesheet"> #}
+			<link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+			<link
+			href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+			{# <!-- Main CSS File --> #}
+			
+			<link href="/assets/css/main.css" rel="stylesheet">
+			<title>TechRescue | Dépannage informatique de qualité</title>
+		{% endblock %}
+		<!-- Favicons -->
+		<link href="/assets/img/favicon.png" rel="icon">
+		<link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+	</head>
+	<body>
+		{% block body %}
+
+
+			{{ include('home/partials/header.html.twig') }}
+			{{ include('home/partials/hero.html.twig') }}
+			{{ include('home/partials/services.html.twig') }}
+			{{ include('home/partials/pricing.html.twig') }}
+			{{ include('home/partials/faq.html.twig') }}
+			{{ include('home/partials/testimonials.html.twig') }}
+			{{ include('home/partials/team.html.twig') }}
+			{{ include('home/partials/contact.html.twig') }}
+			{{ include('home/partials/newsletter.html.twig') }}
+			{{ include('home/partials/footer.html.twig') }}
+
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+
+
+			<!-- Scroll Top -->
+			<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+				<i class="bi bi-arrow-up-short"></i>
+			</a>
+			{# <!-- Vendor JS Files --> #}
+			<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+			<script src="assets/vendor/php-email-form/validate.js"></script>
+			<script src="assets/vendor/aos/aos.js"></script>
+			<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+			<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+			<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+			<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+			<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+			{# <!-- Main JS File --> #}
+			<script src="assets/js/main.js"></script>
+
+		{% endblock %}
+	</body>
+</html></body></body></html>

@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('home/partials/header.html.twig') }}
+    <title>Gestion des Tickets</title>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center">Gestion des Tickets</h1>
+            </div>
+            <div class="card-body">
+                <h2 class="text-center">Créer un nouveau ticket</h2>
+                {{ form_start(form) }}
+                    <div class="form-group">
+                        {{ form_row(form.description) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.dateStart) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.dateEnd) }}
+                    </div>
+                    <div class="col-12 d-flex justify-content-center mt-4">
+                        <button class="button-form" type="submit">Créer un ticket</button>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+        <div class="card mt-4">
+        <div class="card-header">
+                <h2 class="text-center">Tickets Ouverts</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Statut</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in tickets %}
+                            <tr>
+                                <th scope="row">{{ ticket.id }}</th>
+                                <td>{{ ticket.description }}</td>
+                                <td><span class="badge bg-success">{{ ticket.status }}
+                                </span></td>
+                                <td>
+
+                                    {% if ticket.status == 'résolus' %}
+                                        <a href="{{ path('create_checkout_session', {'ticketId': ticket.id}) }}" class="btn btn-success btn-sm">Payez Ici pour la prise en charge d'un technicien</a>
+                                   {% else %}
+                                   <p> Aucune action possible</p>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">Aucun ticket en cours</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-header">
+                <h2 class="text-center">Tickets En cours</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Statut</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in tickets_progress %}
+                            <tr>
+                                <th scope="row">{{ ticket.id }}</th>
+                                <td>{{ ticket.description }}</td>
+                                <td><span class="badge bg-warning">{{ ticket.status }}
+                                </span></td>
+                                <td>
+                                    <a href="#" class="btn btn-warning btn-sm">Modifier</a>
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce ticket?')">Supprimer</a>
+                                    {% if ticket.status == 'open' %}
+                                        <a href="{{ path('create_checkout_session', {'ticketId': ticket.id}) }}" class="btn btn-success btn-sm">Payez Ici pour la prise en charge d'un technicien</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">Aucun ticket en cours</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-header">
+                <h2 class="text-center">Historique des Tickets Clôturés</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Date de Clôture</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in closed_tickets %}
+                            <tr>
+                                <th scope="row">{{ ticket.id }}</th>
+                                <td>{{ ticket.description }}</td>
+                                <td>{{ ticket.dateEnd|date('d/m/Y') }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">Aucun ticket clôturé</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {{ include('home/partials/footer.html.twig') }}
+{% endblock %}
+
+
+
+
+
+
+

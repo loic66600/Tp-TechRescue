@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion RH et fournisseurs{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h1>Gestion RH et fournisseurs</h1>
+        </div>
+        <div class="card-body">
+            {% if app.user %}
+                <p>Welcome,
+                    <strong>{{ app.user.email }}</strong>! You have the following roles:
+                    <strong>{{ app.user.roles|join(', ') }}</strong>
+                </p>
+                <a href="{{ path('admin_catalogue')}}" class="btn btn-primary mb-3">Catalogue de pièces</a>
+
+                <h2>Techniciens</h2>
+                <ul class="list-group mb-3">
+                    {% for user in users %}
+                        {% if 'ROLE_TECHNICIEN' in user.roles %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    {% if user.contactInformation %}
+                                        <span class="me-2">{{ user.contactInformation.lastName|default('') }} {{ user.contactInformation.firstName|default('') }}</span>
+                                        <span class="me-2">Tél : {{ user.contactInformation.phoneNumber|default('') }}</span>
+                                        <span>Adresse : {{ user.contactInformation.address|default('') }} - {{ user.contactInformation.city|default('') }} {{ user.contactInformation.zipCode|default('') }}</span>
+                                    {% else %}
+                                        <span>{{ user.email }}</span>
+                                    {% endif %}
+                                </div>
+                                <a href="{{ path('app_deleteuser', {'id': user.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce technicien?')">Supprimer</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+                <h3>Ajouter un technicien</h3>
+                <form method="post" action="{{ path('app_adduser') }}">
+                    <input type="hidden" name="roles" value="ROLE_TECHNICIEN">
+                    <div class="mb-3">
+                        <label for="tech-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="tech-email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tech-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="tech-password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Ajouter</button>
+                </form>
+
+                <h2>Fournisseurs</h2>
+                <ul class="list-group mb-3">
+                    {% for user in users %}
+                        {% if 'ROLE_SUPPLIER' in user.roles %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="me-2">
+                                        <strong>{{ user.contactInformation.companyName|default('') }}</strong>
+                                    </span>
+                                    <span class="me-2">{{ user.contactInformation.phoneNumber|default('') }}</span>
+                                    <span class="me-2">{{ user.contactInformation.address|default('') }}</span>
+                                    <span class="me-2">{{ user.contactInformation.city|default('') }}</span>
+                                    <span class="me-2">{{ user.contactInformation.zipCode|default('') }}</span>
+                                    <br>
+                                    <small>{{ user.email }}</small>
+                                </div>
+                                <a href="{{ path('app_deleteuser', {'id': user.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce fournisseur?')">Supprimer</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+                <h3>Ajouter un fournisseur</h3>
+                <form method="post" action="{{ path('app_adduser') }}">
+                    <input type="hidden" name="roles" value="ROLE_SUPPLIER">
+                    <div class="mb-3">
+                        <label for="supplier-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="supplier-email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="supplier-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="supplier-password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Ajouter</button>
+                </form>
+
+                <a href="{{ path('app_home') }}" class="btn btn-secondary mt-3">Retour</a>
+            {% else %}
+                <p>You are not logged in.</p>
+                <a href="{{ path('app_login') }}" class="btn btn-primary">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function confirmDelete(userId, userType) {
+            if (confirm(`Êtes-vous sûr de vouloir supprimer ce ${userType} ?`)) {
+                axios.delete(`/api/users/${userId}`).then(function (response) {
+                    if (response.data.success) {
+                        const userRow = document.getElementById(`user-${userId}`);
+                        if (userRow) {
+                            userRow.remove();
+                            showAlert('success', `Le ${userType} a été supprimé avec succès.`);
+                        } else {
+                            showAlert('warning', 'Élément supprimé, mais la page doit être rafraîchie.');
+                        }
+                    } else {
+                        showAlert('error', 'Erreur lors de la suppression : ' + (response.data.message || 'Raison inconnue'));
+                    }
+                }).catch(function (error) {
+                    console.error('Erreur:', error);
+                    showAlert('error', 'Erreur lors de la suppression. Veuillez réessayer.');
+                });
+            }
+        }
+
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'warning'} alert-dismissible fade show`;
+            alertDiv.role = 'alert';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+
+            const container = document.querySelector('.container') || document.body;
+            container.insertBefore(alertDiv, container.firstChild);
+
+            // Optionnel : Faire disparaître l'alerte après 5 secondes
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+    </script>
+{% endblock %}
+

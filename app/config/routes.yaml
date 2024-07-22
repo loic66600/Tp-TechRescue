@@ -1,0 +1,13 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+payment_success:
+    path: /payment/success/{ticketId}
+    controller: App\Controller\StripeController::paymentSuccess
+
+payment_cancel:
+    path: /payment/cancel
+    controller: App\Controller\StripeController::paymentCancel

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}  
+{% include('home/partials/header.html.twig') %}
+<body>
+ <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+            
+                <h1>Créer une pièce</h1>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                    <div class="mb-3">
+                     {{form_label(form.label, null,{'attr':{'class': 'form-label'}})}} 
+                      {{form_widget(form.label,{'attr':{'class': 'form-control'}})}}
+                    </div>
+                    <div class="mb-3">
+                    {{form_label(form.referenceNb, null,{'attr':{'class': 'form-label'}})}}
+                    {{form_widget(form.referenceNb,{'attr':{'class': 'form-control'}})}}
+                    </div>
+                    <div class="mb-3">
+                    {{form_label(form.quantity, null,{'attr':{'class': 'form-label'}})}}
+                    {{form_widget(form.quantity,{'attr':{'class': 'form-control'}})}}
+                    </div>
+                    <div class="d-flex flex-row">
+                    {{form_row(form.submit,{'attr':{'class': 'btn btn-primary mr-3'}})}}
+                    <a href="{{ path('admin_catalogue')}}" class="btn btn-danger mb-3">Annuler</a>
+                    {{form_end(form)}}
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

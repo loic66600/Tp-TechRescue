@@ -1,0 +1,213 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('home/partials/header.html.twig') }}
+    <title>Dashboard du Ticket</title>
+    <div class="container mt-4">
+        {% if ticket %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="text-center">Dashboard du Ticket</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <h5>Technicien</h5>
+                            <p>{{ ticket.technicien ? ticket.technicien.id : 'N/A' }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Client</h5>
+                            <p>{{ ticket.user ? ticket.user.id : 'N/A' }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Statut</h5>
+                            <p>{{ ticket.status }}</p>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-3">
+                        <div class="col-md-6">
+                            <h5>Date de début</h5>
+                            <p>{{ ticket.dateStart|date('d/m/Y H:i') }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Date de fin</h5>
+                            <p>{{ ticket.dateEnd ? ticket.dateEnd|date('d/m/Y H:i') : 'N/A' }}</p>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-3">
+                        <div class="col-md-12">
+                            <h5>Description</h5>
+                            <p>{{ ticket.description }}</p>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-3">
+                        <div class="col-md-12">
+                            <h5>Compte Rendu du Travail Effectué</h5>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Ticket ID</th>
+                                        <th scope="col">Technicien ID</th>
+                                        <th scope="col">Date d'utilisation</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Quantité Utilisée</th>
+                                        <th scope="col">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for interventionStock in ticket.intervention.interventionStocks %}
+                                        <tr>
+                                            <td>{{ ticket.id }}</td>
+                                            <td>{{ ticket.technicien ? ticket.technicien.id : 'N/A' }}</td>
+                                            <td>{{ interventionStock.usedAt|date('d/m/Y H:i') }}</td>
+                                            <td>{{ interventionStock.stock.label }}</td>
+                                            <td>{{ interventionStock.quantityUsed }}</td>
+                                            <td>{{ interventionStock.description }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6" class="text-center">Aucun stock utilisé</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-3">
+                        <div class="col-md-12">
+                            <h5>Compte Rendu Final</h5>
+                            <form method="post" action="{{ path('ticket_close', {'id': ticket.id}) }}">
+                                <div class="form-group">
+                                    <label for="finalReport">Description</label>
+                                    <textarea id="finalReport" name="finalReport" class="form-control" required></textarea>
+                                </div>
+                                <div class="mt-4">
+                                    <button type="submit" class="btn btn-success">Clôturer le Ticket</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center">
+                <strong>Aucun ticket sélectionné.</strong>
+            </div>
+        {% endif %}
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h2 class="text-center">Stock Disponible</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Label</th>
+                            <th scope="col">Référence</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stock in stocks %}
+                            <tr>
+                                <th scope="row">{{ stock.id }}</th>
+                                <td>{{ stock.label }}</td>
+                                <td>{{ stock.referenceNb }}</td>
+                                <td>{{ stock.quantity }}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#useStockModal{{ stock.id }}">Utiliser</button>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">Aucun stock disponible</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal for using stock -->
+        {% for stock in stocks %}
+            <div class="modal fade" id="useStockModal{{ stock.id }}" tabindex="-1" role="dialog" aria-labelledby="useStockModalLabel{{ stock.id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="useStockModalLabel{{ stock.id }}">Utiliser Stock: {{ stock.label }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="{{ path('ticket_use_stock', {'ticketId': ticket.id, 'stockId': stock.id}) }}" class="use-stock-form">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="quantity{{ stock.id }}">Quantité à utiliser</label>
+                                    <input type="number" id="quantity{{ stock.id }}" name="quantity" class="form-control" min="1" max="{{ stock.quantity }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description{{ stock.id }}">Description</label>
+                                    <textarea id="description{{ stock.id }}" name="description" class="form-control" required></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary">Utiliser</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {{ include('home/partials/footer.html.twig') }}
+
+    <script>
+        document.querySelectorAll('.use-stock-form').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const url = this.action;
+                const formData = new FormData(this);
+
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        $('#useStockModal' + formData.get('stockId')).modal('hide');
+                        location.reload();
+                    } else {
+                        alert(data.message || 'Une erreur s\'est produite.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

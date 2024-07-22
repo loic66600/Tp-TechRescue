@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}  
+{% include('home/partials/header.html.twig') %}
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Catalogue de pièces</h1>
+            </div>
+            <div class="card-body">
+                
+                <a href="{{ path('admin_dashboard')}}" class="btn btn-success mb-3">Retour</a>
+                <a href="{{ path('app_addpiece')}}" class="btn btn-primary mb-3">Créer une pièce</a>
+                <a href="{{ path('admin_history')}}" class="btn btn-primary mb-3">Entrée/Sortie Pièces</a>
+                {% for stock in stock %}
+            {% if stock.quantity < 10 %}
+            <div class="alert alert-warning text-center" role="alert">
+                <i class="bi bi-exclamation-circle-fill"></i> Attention !! Le stock de {{ stock.label }} (Référence : {{ stock.referenceNb}}) est faible. Il reste {{ stock.quantity }} unités.
+            </div>
+            {% endif %}
+            {% endfor %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Numéro de référence</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         {% for stock in stock %} 
+                            <tr>
+                                <td> {{stock.label}} </td>
+                                <td> {{stock.referenceNb }}</td>
+                                <td> {{stock.quantity }}</td>
+                                <td>
+                                <a href="{{ path('app_editpiece', {'id': stock.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                <a href="{{ path('app_deletepiece', {'id': stock.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer cette pièce?')">Supprimer</a>
+                                </td>
+                            </tr>
+                         {% else %} 
+                            <tr>
+                                <td colspan="5" class="text-center">Aucune pièce disponible</td>
+                            </tr>
+                         {% endfor %} 
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</body>
+
+
+
+{% endblock %}
