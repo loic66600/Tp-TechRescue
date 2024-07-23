@@ -46,14 +46,12 @@ class AppFixtures extends Fixture
         // Create a first technician user
         $technicien1 = new User();
         $technicien1->setEmail('technicien1@example.com');
-       
         $technicien1->setRoles(['ROLE_TECHNICIEN']);
         $technicien1->setPassword($this->passwordHasher->hashPassword(
             $technicien1,
             'technicienpassword1'
         ));
         $technicien1->setActive(true);
-
         $manager->persist($technicien1);
 
         // Create a second technician user
@@ -73,7 +71,7 @@ class AppFixtures extends Fixture
         $ticket1->setDateEnd(new \DateTime('+1 hour'));
         $ticket1->setUser($user);
         $ticket1->setTechnicien($technicien1);
-        $ticket1->setStatus('open');
+        $ticket1->setStatus('ouvert');
         $ticket1->setDescription('Ticket 1 description');
         $manager->persist($ticket1);
 
@@ -82,7 +80,7 @@ class AppFixtures extends Fixture
         $ticket2->setDateEnd(new \DateTime('+2 hours'));
         $ticket2->setUser($user);
         $ticket2->setTechnicien($technicien2);
-        $ticket2->setStatus('open');
+        $ticket2->setStatus('ouvert');
         $ticket2->setDescription('Ticket 2 description');
         $manager->persist($ticket2);
 

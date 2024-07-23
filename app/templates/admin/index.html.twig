@@ -36,8 +36,21 @@
                     {% endfor %}
                 </ul>
 
-                <h3>Ajouter un technicien</h3>
-                <form method="post" action="{{ path('app_adduser') }}">
+                <button class="btn btn-success" data-toggle="modal" data-target="#useFactModalutilisateur">Ajouter un technicien</button>
+
+                <!-- Modal for form technicien-->
+                           
+                    <div class="modal fade" id="useFactModalutilisateur" tabindex="-1" role="dialog" aria-labelledby="useStockModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="useStockModalLabel1">Ajouter un nouveau technicien</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    <form method="post" action="{{ path('app_adduser') }}">
                     <input type="hidden" name="roles" value="ROLE_TECHNICIEN">
                     <div class="mb-3">
                         <label for="tech-email" class="form-label">Email</label>
@@ -47,9 +60,49 @@
                         <label for="tech-password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="tech-password" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-success">Ajouter</button>
+                    <div class="mb-3">
+                        <label for="tech-lastname" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="tech-lastname" name="lastname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tech-firstname" class="form-label">Prénom</label>
+                        <input type="text" class="form-control" id="tech-firstname" name="firstname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tech-phone" class="form-label">Téléphone</label>
+                        <input type="text" class="form-control" id="tech-phone" name="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tech-address" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" id="tech-address" name="address" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tech-city" class="form-label">Ville</label>
+                        <input type="text" class="form-control" id="tech-city" name="city" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tech-zip" class="form-label">Code postal</label>
+                        <input type="text" class="form-control" id="tech-zip" name="zip" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tech-country" class="form-label">Pays</label>
+                        <input type="text" class="form-control" id="tech-country" name="country" required>
+                    </div>
+                     <button type="submit" class="btn btn-success">Ajouter</button> 
                 </form>
 
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+
+{# -------------------Fin modale utilisateur-------------------------------- #}
+
+</div>
+<div class="card-body">
                 <h2>Fournisseurs</h2>
                 <ul class="list-group mb-3">
                     {% for user in users %}
@@ -71,22 +124,95 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
+                <button class="btn btn-success mr-1" data-toggle="modal" data-target="#useFactModalsupplier">Ajouter un technicien</button>
 
-                <h3>Ajouter un fournisseur</h3>
-                <form method="post" action="{{ path('app_adduser') }}">
-                    <input type="hidden" name="roles" value="ROLE_SUPPLIER">
-                    <div class="mb-3">
-                        <label for="supplier-email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="supplier-email" name="email" required>
+                <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour</a>
+
+
+                 <!-- start Modal for form suppliers-->
+                           
+                    <div class="modal fade" id="useFactModalsupplier" tabindex="-1" role="dialog" aria-labelledby="useStockModalLabel1" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="useStockModalLabel1">Ajouter un nouveau fournisseur</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
                     </div>
-                    <div class="mb-3">
-                        <label for="supplier-password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="supplier-password" name="password" required>
+                    <div class="modal-body">
+                  <form method="post" action="{{ path('app_adduser') }}">
+                    <input type="hidden" name="roles" value="ROLE_SUPPLIER">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="tech-email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="tech-email" name="email" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tech-password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="tech-password" name="password" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="tech-company" class="form-label">Nom de l'entreprise</label>
+                            <input type="text" class="form-control" id="tech-company" name="company" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tech-siret" class="form-label">Numéro de siret</label>
+                            <input type="text" class="form-control" id="tech-siret" name="siret" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="tech-lastname" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="tech-lastname" name="lastname" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tech-firstname" class="form-label">Prénom</label>
+                            <input type="text" class="form-control" id="tech-firstname" name="firstname" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="tech-phone" class="form-label">Téléphone</label>
+                            <input type="text" class="form-control" id="tech-phone" name="phone" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tech-address" class="form-label">Adresse</label>
+                            <input type="text" class="form-control" id="tech-address" name="address" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="tech-city" class="form-label">Ville</label>
+                            <input type="text" class="form-control" id="tech-city" name="city" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tech-zip" class="form-label">Code postal</label>
+                            <input type="text" class="form-control" id="tech-zip" name="zip" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tech-country" class="form-label">Pays</label>
+                            <input type="text" class="form-control" id="tech-country" name="country" required>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-success">Ajouter</button>
                 </form>
 
-                <a href="{{ path('app_home') }}" class="btn btn-secondary mt-3">Retour</a>
+
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+
+{# -------------------End modal Supplier-------------------------------- #}
+
+
+
             {% else %}
                 <p>You are not logged in.</p>
                 <a href="{{ path('app_login') }}" class="btn btn-primary">Login</a>
@@ -94,9 +220,13 @@
         </div>
     </div>
 </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function confirmDelete(userId, userType) {

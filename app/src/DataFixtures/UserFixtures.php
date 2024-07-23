@@ -44,7 +44,7 @@ class UserFixtures extends Fixture
 
         // Create a first technician user
         $technicien1 = new User();
-        $technicien1->setEmail('technicien1@example.com');
+        $technicien1->setEmail('technicien11@example.com');
         $technicien1->setRoles(['ROLE_TECHNICIEN']);
         $technicien1->setPassword($this->passwordHasher->hashPassword(
             $technicien1,

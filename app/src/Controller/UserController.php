@@ -9,6 +9,7 @@ use App\Form\UserType;
 use App\Form\LoginType;
 use App\Form\TicketType;
 use App\Entity\Facturation;
+use App\Entity\ContactInformation;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -253,6 +254,17 @@ class UserController extends AbstractController
         $user->setPassword($passwordHasher->hashPassword($user, $password));
         $user->setActive(true);
 
+        $contactInformation = new ContactInformation();
+        $contactInformation ->setLastName($request->request->get('lastname'));
+        $contactInformation ->setFirstName($request->request->get('firstname'));
+        $contactInformation ->setCompanyName($request->request->get('company'));
+        $contactInformation ->setPhoneNumber($request->request->get('phone'));
+        $contactInformation ->setAddress($request->request->get('address'));
+        $contactInformation ->setCity($request->request->get('city'));
+        $contactInformation ->setZipCode($request->request->get('zip'));
+        $contactInformation ->setCountry($request->request->get('country'));
+        $contactInformation->setSiretNb($request->request->get('siret'));
+        $user->setContactInformation($contactInformation);
         $em->persist($user);
         $em->flush();
 

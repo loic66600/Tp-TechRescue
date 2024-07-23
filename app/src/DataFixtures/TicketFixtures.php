@@ -24,7 +24,7 @@ class TicketFixtures extends Fixture implements DependentFixtureInterface, Fixtu
             try {
                 $dateStart = $faker->dateTimeBetween('now', '+1 month');
                 $dateEnd = $faker->dateTimeBetween('+1 month', '+2 month');
-                $status = $faker->randomElement(['En attente', 'En cours', 'Terminé']);
+                $status = $faker->randomElement(['ouvert', 'en cours', 'resolus']);
                 $description = $faker->text(200); // Ensuring text is generated as string
 
                 // Ensure unique intervention for each ticket
