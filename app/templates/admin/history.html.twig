@@ -1,62 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}  
-{% include('home/partials/header.html.twig') %}
-<body>
+{% block body %}
+    {% include('home/partials/header.html.twig') %}
+    <body>
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="mb-4">Stock de Pièces</h1>
+                    <!-- Lien pour retourner au catalogue -->
+                    <!-- Link to return to the catalog -->
+                    <a href="{{ path('admin_catalogue')}}" class="btn btn-success mb-3">Retour</a>
+                    <h2>Entrées</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Tableau des entrées de stock -->
+                    <!-- Stock entries table -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nom de la Pièce</th>
+                                <th>Quantité</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {# Boucle commentée pour les entrées de stock #}
+                            {# Commented loop for stock entries #}
+                            {# {% for entree in entrees %} #}
+                                <tr>
+                                    <td> entree.nom </td>
+                                    <td> entree.quantite </td>
+                                    <td> entree.date|date('d/m/Y') </td>
+                                </tr>
+                            {# {% endfor %} #}
+                        </tbody>
+                    </table>
 
-<div class="container mt-5">
-<div class="card">
-        <div class="card-header">
-        <h1 class="mb-4">Stock de Pièces</h1>
-        <a href="{{ path('admin_catalogue')}}" class="btn btn-success mb-3">Retour</a>
-        <h2>Entrées</h2>
-        <div class="card-body">
-                
-                
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nom de la Pièce</th>
-                    <th>Quantité</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {# {% for entree in entrees %} #}
-                    <tr>
-                        <td> entree.nom </td>
-                        <td> entree.quantite </td>
-                        <td> entree.date|date('d/m/Y') </td>
-                    </tr>
-                {# {% endfor %} #}
-            </tbody>
-        </table>
-
-        <h2>Sorties</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nom de la Pièce</th>
-                    <th>Quantité</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {# {% for sortie in sorties %} #}
-                    <tr>
-                        <td> sortie.nom </td>
-                        <td> sortie.quantite </td>
-                        <td> sortie.date|date('d/m/Y') </td>
-                    </tr>
-                {# {% endfor %} #}
-            </tbody>
-        </table>
-       </div>
+                    <h2>Sorties</h2>
+                    <!-- Tableau des sorties de stock -->
+                    <!-- Stock exits table -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nom de la Pièce</th>
+                                <th>Quantité</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {# Boucle commentée pour les sorties de stock #}
+                            {# Commented loop for stock exits #}
+                            {# {% for sortie in sorties %} #}
+                                <tr>
+                                    <td> sortie.nom </td>
+                                    <td> sortie.quantite </td>
+                                    <td> sortie.date|date('d/m/Y') </td>
+                                </tr>
+                            {# {% endfor %} #}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
-
-
-
-
-
+    </body>
 {% endblock %}

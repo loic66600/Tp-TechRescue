@@ -28,6 +28,8 @@ class TicketController extends AbstractController
     #[Route('/ticket/edit/{id}', name: 'ticket_edit')]
     public function edit(Ticket $ticket, Request $request): Response
     {
+        // Créer et gérer le formulaire d'édition du ticket
+        // Create and handle the ticket edit form
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
 
@@ -36,6 +38,7 @@ class TicketController extends AbstractController
             return $this->redirectToRoute('app_ticket');
         }
 
+        // Récupérer le stock disponible
         // Fetch available stock
         $stocks = $this->entityManager->getRepository(Stock::class)->findAll();
 
@@ -49,6 +52,8 @@ class TicketController extends AbstractController
     #[Route('/ticket/use_stock/{ticketId}/{stockId}', name: 'ticket_use_stock')]
     public function useStock(int $ticketId, int $stockId, Request $request): JsonResponse
     {
+        // Récupérer le ticket et le stock
+        // Retrieve the ticket and stock
         $ticket = $this->entityManager->getRepository(Ticket::class)->find($ticketId);
         $stock = $this->entityManager->getRepository(Stock::class)->find($stockId);
 
@@ -57,8 +62,12 @@ class TicketController extends AbstractController
             $description = $request->request->get('description');
 
             if ($quantityUsed > 0 && $quantityUsed <= $stock->getQuantity()) {
+                // Mettre à jour la quantité de stock
+                // Update stock quantity
                 $stock->setQuantity($stock->getQuantity() - $quantityUsed);
 
+                // Créer une nouvelle entrée InterventionStock
+                // Create a new InterventionStock entry
                 $interventionStock = new InterventionStock();
                 $interventionStock->setIntervention($ticket->getIntervention());
                 $interventionStock->setStock($stock);
@@ -78,10 +87,11 @@ class TicketController extends AbstractController
         return new JsonResponse(['status' => 'error', 'message' => 'Invalid request.']);
     }
 
-
     #[Route('/ticket/in_progress/{id}', name: 'ticket_in_progress')]
     public function in_progress(Ticket $ticket): Response
     {
+        // Mettre le ticket en cours
+        // Set the ticket to in progress
         $ticket->setStatus('en cours');
 
         $this->entityManager->flush();
@@ -90,11 +100,11 @@ class TicketController extends AbstractController
         return $this->redirectToRoute('app_ticket');
     }
 
-
-
     #[Route('/ticket/close/{id}', name: 'ticket_close')]
     public function close(Ticket $ticket, Request $request): Response
     {
+        // Fermer le ticket et créer la facturation
+        // Close the ticket and create billing
         $ticket->setStatus('resolus');
         $ticket->setDateEnd(new \DateTime());
 
@@ -133,6 +143,8 @@ class TicketController extends AbstractController
     #[Route('/ticket/delete/{id}', name: 'ticket_delete')]
     public function delete(Ticket $ticket): Response
     {
+        // Supprimer le ticket
+        // Delete the ticket
         $this->entityManager->remove($ticket);
         $this->entityManager->flush();
 
@@ -140,14 +152,3 @@ class TicketController extends AbstractController
         return $this->redirectToRoute('app_dashboard');
     }
 }
-
-
-
-
-
-
-
-
-
-
-

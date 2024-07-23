@@ -2,42 +2,63 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<!-- Inclusion de l'en-tête -->
+<!-- Include the header -->
 {{ include('home/partials/header.html.twig') }}
 
 <body>
 <section id="hero" class="section form">
-<h2 class="card-title text-center mt-4">Se connecter</h2>
-            <div class="d-flex justify-content-center">
-             <form method="post" class="php-email-form">
-              {% if error %}
+    <h2 class="card-title text-center mt-4">Se connecter</h2>
+    <div class="d-flex justify-content-center">
+        <!-- Formulaire de connexion -->
+        <!-- Login form -->
+        <form method="post" class="php-email-form">
+            <!-- Affichage des erreurs de connexion -->
+            <!-- Display login errors -->
+            {% if error %}
                 <div class="alert alert-danger" role="alert">
-                  {{ error.messageKey|trans(error.messageData, 'security') }}
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
                 </div>
-              {% endif %}
-              <div class="row gy-4">
-                  <div class="mb-3">
+            {% endif %}
+            <div class="row gy-4">
+                <!-- Champ email -->
+                <!-- Email field -->
+                <div class="mb-3">
                     <label for="username" class="form-label">Email:</label>
                     <div class="input-group">
-                      <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                      <input type="email" class="form-control" id="username" name="_username" value="{{ last_username }}" required autofocus>
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input type="email" class="form-control" id="username" name="_username" value="{{ last_username }}" required autofocus>
                     </div>
-                  </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Password:</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                  <input type="password" class="form-control" id="password" name="_password" required>
                 </div>
-              </div>
-              <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-              <div class="d-grid gap-2 mt-4">
-                <button class="btn btn-primary btn-lg" type="submit">Se connecter</button>
-              </div>
-              </div>
-            </form>
-            
-     </section><p class="text-center">Vous n'avez pas de compte ? <a href="{{ path('app_inscription') }}">Inscrivez-vous</a></p>
-  {{ include('home/partials/footer.html.twig') }}
-  </body>
+                <!-- Champ mot de passe -->
+                <!-- Password field -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input type="password" class="form-control" id="password" name="_password" required>
+                    </div>
+                </div>
+                <!-- Token CSRF pour la sécurité -->
+                <!-- CSRF token for security -->
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <!-- Bouton de connexion -->
+                <!-- Login button -->
+                <div class="d-grid gap-2 mt-4">
+                    <button class="btn btn-primary btn-lg" type="submit">Se connecter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Lien vers la page d'inscription -->
+<!-- Link to registration page -->
+<p class="text-center">Vous n'avez pas de compte ? <a href="{{ path('app_inscription') }}">Inscrivez-vous</a></p>
+
+<!-- Inclusion du pied de page -->
+<!-- Include the footer -->
+{{ include('home/partials/footer.html.twig') }}
+</body>
 
 {% endblock %}

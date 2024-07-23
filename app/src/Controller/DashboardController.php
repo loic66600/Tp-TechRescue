@@ -22,21 +22,38 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(): Response
     {
+        // Récupérer les données de la base de données
         // Fetch data from the database
-        $openTickets = $this->entityManager->getRepository(Ticket::class)->count(['status' => 'ouvert']);
-        $inProgressTickets = $this->entityManager->getRepository(Ticket::class)->count(['status' => 'en cours']);
-        $resolvedToday = $this->entityManager->getRepository(Ticket::class)->count(['status' => 'resolus']);
-        $avgResolutionTime = $this->entityManager->getRepository(Ticket::class)->calculateAverageResolutionTime();
-        $recentTickets = $this->entityManager->getRepository(Ticket::class)->findRecentTickets();
- 
 
+        // Compter les tickets ouverts
+        // Count open tickets
+        $openTickets = $this->entityManager->getRepository(Ticket::class)->count(['status' => 'ouvert']);
+
+        // Compter les tickets en cours
+        // Count in-progress tickets
+        $inProgressTickets = $this->entityManager->getRepository(Ticket::class)->count(['status' => 'en cours']);
+
+        // Compter les tickets résolus aujourd'hui
+        // Count tickets resolved today
+        $resolvedToday = $this->entityManager->getRepository(Ticket::class)->count(['status' => 'resolus']);
+
+        // Calculer le temps moyen de résolution
+        // Calculate average resolution time
+        $avgResolutionTime = $this->entityManager->getRepository(Ticket::class)->calculateAverageResolutionTime();
+
+        // Récupérer les tickets récents
+        // Fetch recent tickets
+        $recentTickets = $this->entityManager->getRepository(Ticket::class)->findRecentTickets();
+
+        // Récupérer tous les tickets
         // Fetch all tickets
         $tickets = $this->entityManager->getRepository(Ticket::class)->findinfos();
 
+        // Récupérer les techniciens
         // Fetch technicians
         $technicians = $this->entityManager->getRepository(User::class)->findByRole('ROLE_TECHNICIEN');
       
- 
+        // Combiner les données dans un tableau
         // Combine data into an array
         $data = [
             'openTickets' => $openTickets,
@@ -46,14 +63,10 @@ class DashboardController extends AbstractController
             'recentTickets' => $recentTickets,
             'tickets' => $tickets,
             'technicians' => $technicians,
-           
         ];
-        //  render view;
+
+        // Rendre la vue
+        // Render view
         return $this->render('home/dashboard.html.twig', $data);
     }
 }
-
-
-
-
-

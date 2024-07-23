@@ -143,6 +143,7 @@ class UserController extends AbstractController
     }
 
 
+    
     #[Route('/technicien', name: 'app_ticket')]
     public function technicien(): Response
     {

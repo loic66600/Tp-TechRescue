@@ -30,12 +30,16 @@ class AdminController extends AbstractController
     #[Route('/admin', name: 'admin_dashboard')]
     public function index(UserRepository $userRepository, TicketRepository $ticketRepository): Response
     {
+        // Récupérer tous les utilisateurs et tickets de la base de données
         // Retrieve all users and tickets from the database
         $users = $userRepository->findAll();
         $tickets = $ticketRepository->findAll();
         $technicians = $userRepository->findByRole('ROLE_TECHNICIEN');
 
-        $this->denyAccessUnlessGranted('ROLE_ADMIN'); //seul l'utilisateur connecté en tant qu'admin peut accéder à cette page
+        // Seul l'utilisateur connecté en tant qu'admin peut accéder à cette page
+        // Only the user logged in as admin can access this page
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         return $this->render('admin/index.html.twig', [
             'users' => $users,
             'tickets' => $tickets,
@@ -45,12 +49,13 @@ class AdminController extends AbstractController
 
     #[Route('/admin/catalogue', name: 'admin_catalogue')]
     public function catalogue(): Response
-    { //ici on affiche le catalogue des pièces
+    {
+        // Afficher le catalogue des pièces
+        // Display the parts catalog
         $stock = $this->entityManager->getRepository(Stock::class)->findAll();
 
         return $this->render('admin/catalogue.html.twig', [
             'stock' => $stock,
-            
         ]);
     }
 
@@ -61,36 +66,37 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/addpiece', name: 'app_addpiece')]
-    public function addpiece(Request $request,ValidatorInterface $validator): Response
+    public function addpiece(Request $request, ValidatorInterface $validator): Response
     { 
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-            // Implement stock addition logic here
-            $stock = new Stock();
-            $form = $this->createForm(AddStockType::class, $stock);
-            $form->handleRequest($request);
+        
+        // Logique d'ajout de stock
+        // Stock addition logic
+        $stock = new Stock();
+        $form = $this->createForm(AddStockType::class, $stock);
+        $form->handleRequest($request);
 
-            //ici on vas vérifie que les donénessont correctes
+        // Vérifier que les données sont correctes
+        // Check that the data is correct
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Définir le statut par défaut
+            // Set the default status
+            $stock->setActive('True');
+            $this->entityManager->persist($stock);
+            $this->entityManager->flush();
             
-            if ($form->isSubmitted() && $form->isValid()) { // Set the default status
-                $stock->setActive('True');
-                $this->entityManager->persist($stock);
-                $this->entityManager->flush();
-                
-    
-                return $this->redirectToRoute('admin_catalogue');
-            }
+            return $this->redirectToRoute('admin_catalogue');
+        }
 
-    
         return $this->render('admin/form/addpiece.html.twig', [
             'controller_name' => 'HomeController',
             'form' => $form->createView(),
         ]);
-
-
     }
 
     /**
-     * méthode qui va supprimer une pièce
+     * Méthode qui va supprimer une pièce
+     * Method to delete a part
      * @Route("/admin/deletepiece/{id}", name="app_deletepiece")
      * @param Stock $stock
      * @return Response
@@ -103,26 +109,22 @@ class AdminController extends AbstractController
 
         $this->addFlash('success', 'Ticket deleted successfully.');
         return $this->redirectToRoute('admin_catalogue');
-
     }
 
-
-
-
-
     #[Route('/admin/editpiece/{id}', name: 'app_editpiece')]
-    public function updateticket($id,Request $request): Response
+    public function updateticket($id, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $piece= $this->entityManager->getRepository(Stock::class)->findOneBy(
+        $piece = $this->entityManager->getRepository(Stock::class)->findOneBy(
             ['id' => $id]
         );
         
-
         $form = $this->createForm(EditPieceType::class, $piece);
         $form->handleRequest($request);
         
-        if ($form->isSubmitted() && $form->isValid()) { // Set the default status
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Définir le statut par défaut
+            // Set the default status
             $piece->setActive('True');
             
             $this->entityManager->persist($piece);
@@ -131,7 +133,6 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_catalogue');
         }
 
-    
         return $this->render('admin/form/editpiece.html.twig', [
             'controller_name' => 'HomeController',
             'piece' => $piece,
@@ -155,6 +156,7 @@ class AdminController extends AbstractController
             if ($technician) {
                 $ticket->setTechnicien($technician);
 
+                // Créer ou mettre à jour l'intervention
                 // Create or update the intervention
                 $intervention = $ticket->getIntervention();
                 if (!$intervention) {
@@ -184,12 +186,14 @@ class AdminController extends AbstractController
             }
  
             // Supprimer les informations de contact
+            // Delete contact information
             $contactInfo = $user->getContactInformation();
             if ($contactInfo) {
                 $this->entityManager->remove($contactInfo);
             }
  
             // Supprimer l'utilisateur
+            // Delete the user
             $this->entityManager->remove($user);
             $this->entityManager->flush();
  
@@ -212,7 +216,8 @@ class AdminController extends AbstractController
             $this->entityManager->persist($stock);
         }
         // Si la relation est bidirectionnelle, ajoutez ceci :
-    $supplier->getStocks()->clear();
+        // If the relationship is bidirectional, add this:
+        $supplier->getStocks()->clear();
     }
  
     private function handleTechnicianDeletion(User $technician)
@@ -222,20 +227,5 @@ class AdminController extends AbstractController
             $ticket->setTechnician(null);
             $this->entityManager->persist($ticket);
         }
-
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

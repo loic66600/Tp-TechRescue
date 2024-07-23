@@ -1,89 +1,103 @@
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
+<!-- Section Contact -->
+<!-- Contact Section -->
+<section id="contact" class="contact section">
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <p>Contactez-nous</p>
-      </div><!-- End Section Title -->
+  <!-- Titre de la section -->
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Contact</h2>
+    <p>Contactez-nous</p>
+  </div><!-- Fin du titre de la section --><!-- End Section Title -->
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <div class="row gy-4">
+
+      <!-- Colonne d'informations de contact -->
+      <!-- Contact information column -->
+      <div class="col-lg-6">
 
         <div class="row gy-4">
-
-          <div class="col-lg-6">
-
-            <div class="row gy-4">
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="200">
-                  <i class="bi bi-geo-alt"></i>
-                  <h3>Adresse</h3>
-                  <p>A108 Adam Street</p>
-                  <p>New York, NY 535022</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="300">
-                  <i class="bi bi-telephone"></i>
-                  <h3>Appelez-nous</h3>
-                  <p>+33 55 89 55 48 </p>
-                  <p>+33 66 78 25 44 </p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="400">
-                  <i class="bi bi-envelope"></i>
-                  <h3>Email </h3>
-                  <p>info@example.com</p>
-                  <p>contact@example.com</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="500">
-                  <i class="bi bi-clock"></i>
-                  <h3>Heures d'ouverture</h3>
-                  <p>Lundi - Vendredi</p>
-                  <p>9:00AM - 05:00PM</p>
-                </div>
-              </div><!-- End Info Item -->
-
+          <!-- Élément d'information : Adresse -->
+          <!-- Info Item: Address -->
+          <div class="col-md-6">
+            <div class="info-item" data-aos="fade" data-aos-delay="200">
+              <i class="bi bi-geo-alt"></i>
+              <h3>Adresse</h3>
+              <p>A108 Adam Street</p>
+              <p>New York, NY 535022</p>
             </div>
+          </div><!-- Fin de l'élément d'information --><!-- End Info Item -->
 
-          </div>
+          <!-- Élément d'information : Téléphone -->
+          <!-- Info Item: Phone -->
+          <div class="col-md-6">
+            <div class="info-item" data-aos="fade" data-aos-delay="300">
+              <i class="bi bi-telephone"></i>
+              <h3>Appelez-nous</h3>
+              <p>+33 55 89 55 48 </p>
+              <p>+33 66 78 25 44 </p>
+            </div>
+          </div><!-- Fin de l'élément d'information --><!-- End Info Item -->
 
-          <div class="col-lg-6">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
+          <!-- Élément d'information : Email -->
+          <!-- Info Item: Email -->
+          <div class="col-md-6">
+            <div class="info-item" data-aos="fade" data-aos-delay="400">
+              <i class="bi bi-envelope"></i>
+              <h3>Email </h3>
+              <p>info@example.com</p>
+              <p>contact@example.com</p>
+            </div>
+          </div><!-- Fin de l'élément d'information --><!-- End Info Item -->
 
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Votre nom" required="">
-                </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Votre Email" required="">
-                </div>
-
-                <div class="col-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subjet" required="">
-                </div>
-
-                <div class="col-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
-                </div>
-
-                <div class="col-12 text-center">
-                  <button type="submit">Se connecter</button>
-                </div>
-
-              </div>
-            </form>
-          </div><!-- End Contact Form -->
+          <!-- Élément d'information : Heures d'ouverture -->
+          <!-- Info Item: Opening Hours -->
+          <div class="col-md-6">
+            <div class="info-item" data-aos="fade" data-aos-delay="500">
+              <i class="bi bi-clock"></i>
+              <h3>Heures d'ouverture</h3>
+              <p>Lundi - Vendredi</p>
+              <p>9:00AM - 05:00PM</p>
+            </div>
+          </div><!-- Fin de l'élément d'information --><!-- End Info Item -->
 
         </div>
 
       </div>
 
-    </section><!-- /Contact Section -->
+      <!-- Formulaire de contact -->
+      <!-- Contact Form -->
+      <div class="col-lg-6">
+        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+          <div class="row gy-4">
+
+            <div class="col-md-6">
+              <input type="text" name="name" class="form-control" placeholder="Votre nom" required="">
+            </div>
+
+            <div class="col-md-6 ">
+              <input type="email" class="form-control" name="email" placeholder="Votre Email" required="">
+            </div>
+
+            <div class="col-12">
+              <input type="text" class="form-control" name="subject" placeholder="Subjet" required="">
+            </div>
+
+            <div class="col-12">
+              <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+            </div>
+
+            <div class="col-12 text-center">
+              <button type="submit">Se connecter</button>
+            </div>
+
+          </div>
+        </form>
+      </div><!-- Fin du formulaire de contact --><!-- End Contact Form -->
+
+    </div>
+
+  </div>
+
+</section><!-- Fin de la section Contact --><!-- /Contact Section -->

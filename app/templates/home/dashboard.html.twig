@@ -16,74 +16,78 @@
 {% block body %}
 	{{ include('home/partials/header.html.twig') }}
 	<div class="container mt-4">
-		<h1 class="mb-4 text-center">Tableau de Bord</h1>
-		<div class="row">
-			<div class="col-md-3 mb-3">
-				<div class="card h-100 shadow-sm">
-					<div class="card-body text-center">
-						<h5 class="card-title">Tickets Ouverts</h5>
-						<h2 class="card-text text-success" id="openTickets">{{ openTickets }}</h2>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 mb-3">
-				<div class="card h-100 shadow-sm">
-					<div class="card-body text-center">
-						<h5 class="card-title">En Cours</h5>
-						<h2 class="card-text text-warning" id="inProgressTickets">{{ inProgressTickets }}</h2>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 mb-3">
-				<div class="card h-100 shadow-sm">
-					<div class="card-body text-center">
-						<h5 class="card-title">Résolus Aujourd'hui</h5>
-						<h2 class="card-text text-danger" id="resolvedToday">{{ resolvedToday }}</h2>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 mb-3">
-				<div class="card h-100 shadow-sm">
-					<div class="card-body text-center">
-						<h5 class="card-title">Temps Moyen de Résolution</h5>
-						<h2 class="card-text text-info" id="avgResolutionTime">{{ avgResolutionTime }}
-							h</h2>
-					</div>
-				</div>
-			</div>
-		</div>
+    <h1 class="mb-4 text-center">Tableau de Bord</h1>
+    <div class="row">
+        <!-- Cartes d'informations rapides -->
+        <!-- Quick information cards -->
+        <div class="col-md-3 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Tickets Ouverts</h5>
+                    <h2 class="card-text text-success" id="openTickets">{{ openTickets }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">En Cours</h5>
+                    <h2 class="card-text text-warning" id="inProgressTickets">{{ inProgressTickets }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Résolus Aujourd'hui</h5>
+                    <h2 class="card-text text-danger" id="resolvedToday">{{ resolvedToday }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Temps Moyen de Résolution</h5>
+                    <h2 class="card-text text-info" id="avgResolutionTime">{{ avgResolutionTime }} h</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div class="row mt-4">
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 shadow-sm">
-					<div class="card-header bg-light">
-						<h5 class="card-title mb-0">Tickets Récents</h5>
-					</div>
-					<div class="card-body">
-						<ul class="list-group list-group-flush" id="recentTickets">
-							{% for ticket in recentTickets %}
-								<li class="list-group-item d-flex justify-content-between align-items-center">
-									N°{{ ticket.id }}-
-									{{ ticket.description() }}
-									<span class="badge bg-secondary rounded-pill">{{ ticket.dateEnd|date("d/m/Y") }}</span>
-								</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 mb-4">
-				<div class="card h-100 shadow-sm">
-					<div class="card-header bg-light">
-						<h5 class="card-title mb-0">Statistiques des Tickets</h5>
-					</div>
-					<div class="card-body">
-						<canvas id="ticketStats"></canvas>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="row mt-4">
+        <!-- Liste des tickets récents -->
+        <!-- List of recent tickets -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">Tickets Récents</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush" id="recentTickets">
+                        {% for ticket in recentTickets %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                N°{{ ticket.id }}- {{ ticket.description() }}
+                                <span class="badge bg-secondary rounded-pill">{{ ticket.dateEnd|date("d/m/Y") }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Graphique des statistiques des tickets -->
+        <!-- Ticket statistics chart -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">Statistiques des Tickets</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="ticketStats"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 	<div class="container mt-4">
 		<h1 class="mb-4">Gestion des Tickets</h1>
 		<div class="row">
@@ -93,154 +97,175 @@
 					<div class="card-body ticket-list">
 						<div class="table-responsive">
 							<table class="table table-hover table-sm">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>Nom</th>
-										<th>Adresse</th>
-										<th>Téléphone</th>
-										<th>Description</th>
-										<th>Date de Début</th>
-										<th>Date de Fin</th>
-										<th>Statut</th>
-										<th>Assigné à</th>
-										<th>Actions</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for ticket in tickets %}
-									
-										<tr>
-											<td>{{ ticket.id }}</td>
-											<td>
-												{% if ticket.user and ticket.user.contactInformation %}
-													{{ ticket.user.contactInformation.lastName }}
-												{% else %}
-													LastName
-												{% endif %}
-											</td>
-											<td>
-												{% if ticket.user and ticket.user.contactInformation %}
-													{{ ticket.user.contactInformation.address }}
-												{% else %}
-													N/A
-												{% endif %}
-											</td>
-											<td>
-												{% if ticket.user and ticket.user.contactInformation %}
-													{{ ticket.user.contactInformation.phoneNumber }}
-												{% else %}
-													N/A
-												{% endif %}
-											</td>
-											<td>{{ ticket.description }}</td>
-											<td>{{ ticket.dateStart|date('d/m/Y H:i') }}</td>
-											<td>{{ ticket.dateEnd|date('d/m/Y H:i') }}</td>
-											<td>
-												<span class="badge bg-{{ ticket.status == 'resolus' ? 'danger' : (ticket.status == 'en cours' ? 'warning' : 'success') }}">
-													{{ ticket.status }}
-												</span>
-											</td>
-											<td>
-												{{ ticket.technicien ? 
-														(ticket.technicien.contactInformation ? 
-															ticket.technicien.contactInformation.lastName ~ ' ' ~ 
-															ticket.technicien.contactInformation.firstName ~ 
-															' ' 
-														: ticket.technicien.email) 
-													: 'Non assigné' }}
-											</td>
-											<td>
-											
-												<a href="{{ path('ticket_delete', {id: ticket.id}) }}" class="btn btn-sm btn-danger">supprimer</a>
-											</td>
-										</tr>
-									{% endfor %}
-								</tbody>
-							</table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Adresse</th>
+            <th>Téléphone</th>
+            <th>Description</th>
+            <th>Date de Début</th>
+            <th>Date de Fin</th>
+            <th>Statut</th>
+            <th>Assigné à</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.id }}</td>
+                <!-- Nom de l'utilisateur (si disponible) -->
+                <!-- User's name (if available) -->
+                <td>
+                    {% if ticket.user and ticket.user.contactInformation %}
+                        {{ ticket.user.contactInformation.lastName }}
+                    {% else %}
+                        LastName
+                    {% endif %}
+                </td>
+                <!-- Adresse de l'utilisateur (si disponible) -->
+                <!-- User's address (if available) -->
+                <td>
+                    {% if ticket.user and ticket.user.contactInformation %}
+                        {{ ticket.user.contactInformation.address }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <!-- Numéro de téléphone de l'utilisateur (si disponible) -->
+                <!-- User's phone number (if available) -->
+                <td>
+                    {% if ticket.user and ticket.user.contactInformation %}
+                        {{ ticket.user.contactInformation.phoneNumber }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>{{ ticket.description }}</td>
+                <td>{{ ticket.dateStart|date('d/m/Y H:i') }}</td>
+                <td>{{ ticket.dateEnd|date('d/m/Y H:i') }}</td>
+                <!-- Statut du ticket avec couleur correspondante -->
+                <!-- Ticket status with corresponding color -->
+                <td>
+                    <span class="badge bg-{{ ticket.status == 'resolus' ? 'danger' : (ticket.status == 'en cours' ? 'warning' : 'success') }}">
+                        {{ ticket.status }}
+                    </span>
+                </td>
+                <!-- Technicien assigné (si disponible) -->
+                <!-- Assigned technician (if available) -->
+                <td>
+                    {{ ticket.technicien ? 
+                            (ticket.technicien.contactInformation ? 
+                                ticket.technicien.contactInformation.lastName ~ ' ' ~ 
+                                ticket.technicien.contactInformation.firstName ~ 
+                                ' ' 
+                            : ticket.technicien.email) 
+                        : 'Non assigné' }}
+                </td>
+                <!-- Actions disponibles pour le ticket -->
+                <!-- Available actions for the ticket -->
+                <td>
+                    <a href="{{ path('ticket_delete', {id: ticket.id}) }}" class="btn btn-sm btn-danger">supprimer</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 						</div>
 					</div>
 
 					<h2>Tickets</h2>
-					<table class="table table-hover">
-						<thead>
-							<tr>
-
-								<th>Nom</th>
-								<th>Adresse</th>
-								<th>Téléphone</th>
-								<th>Description</th>
-								<th>Date de Début</th>
-								<th>Date de Fin</th>
-								<th>Statut</th>
-								<th>Assigné à</th>
-								<th>Intervention</th>
-								<th>Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for ticket in tickets %}
-								<tr>
-									<td>
-										{% if ticket.user and ticket.user.contactInformation %}
-											{{ ticket.user.contactInformation.lastName }}
-										{% else %}
-											LastName
-										{% endif %}
-									</td>
-									<td>
-										{% if ticket.user and ticket.user.contactInformation %}
-											{{ ticket.user.contactInformation.address }}
-										{% else %}
-											N/A
-										{% endif %}
-									</td>
-									<td>
-										{% if ticket.user and ticket.user.contactInformation %}
-											{{ ticket.user.contactInformation.phoneNumber }}
-										{% else %}
-											N/A
-										{% endif %}
-									</td>
-									<td>{{ ticket.description }}</td>
-									<td>{{ ticket.dateStart|date('d/m/Y H:i') }}</td>
-									<td>{{ ticket.dateEnd|date('d/m/Y H:i') }}</td>
-									<td>{{ ticket.status }}</td>
-									<td>
-										{% if ticket.technicien %}
-											{% if ticket.technicien.contactInformation %}
-												{{ ticket.technicien.contactInformation.lastName|default('') }}
-												{{ ticket.technicien.contactInformation.firstName|default('') }}
-											{% else %}
-												{{ ticket.technicien.email }}
-											{% endif %}
-										{% else %}
-											Non assigné
-										{% endif %}
-									</td>
-									<td>{{ ticket.intervention ? ticket.intervention.label : 'Non assigné' }}</td>
-									<td>
-										<form method="post" action="{{ path('admin_assign_ticket', {id: ticket.id}) }}">
-											<select name="technician_id" class="form-select">
-												<option value="">Choisir un technicien</option>
-												{% for technician in technicians %}
-													<option value="{{ technician.id }}" {% if ticket.technicien and ticket.technicien.id == technician.id %} selected {% endif %}>
-														{% if technician.contactInformation %}
-															{{ technician.contactInformation.lastName }}
-															{{ technician.contactInformation.firstName }}
-														{% else %}
-															{{ technician.email }}
-														{% endif %}
-													</option>
-												{% endfor %}
-											</select>
-										<button type="submit" class="btn btn-sm btn-primary mt-2">Assigner</button>
-										</form>
-									</td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+				<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Adresse</th>
+            <th>Téléphone</th>
+            <th>Description</th>
+            <th>Date de Début</th>
+            <th>Date de Fin</th>
+            <th>Statut</th>
+            <th>Assigné à</th>
+            <th>Intervention</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ticket in tickets %}
+            <tr>
+                <!-- Nom de l'utilisateur (si disponible) -->
+                <!-- User's name (if available) -->
+                <td>
+                    {% if ticket.user and ticket.user.contactInformation %}
+                        {{ ticket.user.contactInformation.lastName }}
+                    {% else %}
+                        LastName
+                    {% endif %}
+                </td>
+                <!-- Adresse de l'utilisateur (si disponible) -->
+                <!-- User's address (if available) -->
+                <td>
+                    {% if ticket.user and ticket.user.contactInformation %}
+                        {{ ticket.user.contactInformation.address }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <!-- Numéro de téléphone de l'utilisateur (si disponible) -->
+                <!-- User's phone number (if available) -->
+                <td>
+                    {% if ticket.user and ticket.user.contactInformation %}
+                        {{ ticket.user.contactInformation.phoneNumber }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>{{ ticket.description }}</td>
+                <td>{{ ticket.dateStart|date('d/m/Y H:i') }}</td>
+                <td>{{ ticket.dateEnd|date('d/m/Y H:i') }}</td>
+                <td>{{ ticket.status }}</td>
+                <!-- Technicien assigné (si disponible) -->
+                <!-- Assigned technician (if available) -->
+                <td>
+                    {% if ticket.technicien %}
+                        {% if ticket.technicien.contactInformation %}
+                            {{ ticket.technicien.contactInformation.lastName|default('') }}
+                            {{ ticket.technicien.contactInformation.firstName|default('') }}
+                        {% else %}
+                            {{ ticket.technicien.email }}
+                        {% endif %}
+                    {% else %}
+                        Non assigné
+                    {% endif %}
+                </td>
+                <!-- Intervention associée au ticket (si disponible) -->
+                <!-- Intervention associated with the ticket (if available) -->
+                <td>{{ ticket.intervention ? ticket.intervention.label : 'Non assigné' }}</td>
+                <!-- Formulaire pour assigner un technicien au ticket -->
+                <!-- Form to assign a technician to the ticket -->
+                <td>
+                    <form method="post" action="{{ path('admin_assign_ticket', {id: ticket.id}) }}">
+                        <select name="technician_id" class="form-select">
+                            <option value="">Choisir un technicien</option>
+                            {% for technician in technicians %}
+                                <option value="{{ technician.id }}" {% if ticket.technicien and ticket.technicien.id == technician.id %} selected {% endif %}>
+                                    {% if technician.contactInformation %}
+                                        {{ technician.contactInformation.lastName }}
+                                        {{ technician.contactInformation.firstName }}
+                                    {% else %}
+                                        {{ technician.email }}
+                                    {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary mt-2">Assigner</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>>
 				</div>
 			</div>
 
