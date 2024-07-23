@@ -11,7 +11,7 @@ Ce projet utilise Symfony et Docker pour créer une application de gestion de r�
 - Docker
 - Docker Compose
 
-### Installation initiale
+### Installation initiale rapide
 
 1. Naviguez vers le dossier `RUNNER`.
 2. Ouvrez un terminal et exécutez les commandes suivantes pour donner les permissions d'exécution aux scripts :
@@ -25,7 +25,7 @@ Ce projet utilise Symfony et Docker pour créer une application de gestion de r�
    ./automate_setup.sh
    ```
 
-### Après le lancement des conteneurs Docker
+### Après le lancement des conteneurs Docker initial
 
 Exécutez les commandes suivantes :
 
