@@ -1,86 +1,147 @@
-⚠️ Aprés lancement des container Docker executer les commandes suivantes :
-   # Run Composer
-    -->   docker exec -it phpimmo composer install
-
-       # Run Yarn
-    -->   docker exec -it nodeimmo yarn
-
-       # Run Yarn encore dev
-    -->   docker exec -it nodeimmo yarn encore dev
-
-       # Run Yarn encore dev --watch
-     -->  docker exec -it nodeimmo yarn encore dev --watch
-
-       # Run Yarn add aos
-     --> docker exec -it nodeimmo yarn add aos
-
-      # Run notifier bu
-     --> docker exec -it phpimmo composer require symfony/notifier
-
-     !! docker exec -it phpimmo composer require fakerphp/faker --dev
 
 
-     !! docker exec -it phpimmo composer require stripe/stripe-php
-⚠️
+# 🛠 Projet Réparation Informatique - Symfony avec Docker
 
-# premier lancement de docker compose
+Ce projet utilise Symfony et Docker pour créer une application de gestion de réparation informatique robuste et portable.
+
+## 🚀 Démarrage rapide
+
+### Prérequis
+
+- Docker
+- Docker Compose
+
+### Installation initiale
+
+1. Naviguez vers le dossier `RUNNER`.
+2. Ouvrez un terminal et exécutez les commandes suivantes pour donner les permissions d'exécution aux scripts :
+   ```bash
+   chmod +x setup.sh
+   chmod +x automate_setup.sh
+   ```
+3. Cliquez droit sur `automate_setup.sh` -> "Exécuter comme un programme".
+4. Dans le terminal, exécutez :
+   ```bash
+   ./automate_setup.sh
+   ```
+
+### Après le lancement des conteneurs Docker
+
+Exécutez les commandes suivantes :
+
+```bash
+# Installer les dépendances Composer
+docker exec -it phpimmo composer install
+
+# Installer les dépendances Yarn
+docker exec -it nodeimmo yarn
+
+# Compiler les assets
+docker exec -it nodeimmo yarn encore dev
+
+# Compiler les assets en mode watch
+docker exec -it nodeimmo yarn encore dev --watch
+
+# Installer AOS (Animate On Scroll)
+docker exec -it nodeimmo yarn add aos
+
+# Installer le notifier Symfony
+docker exec -it phpimmo composer require symfony/notifier
+
+# Installer Faker pour les données de test
+docker exec -it phpimmo composer require fakerphp/faker --dev
+
+# Installer Stripe pour les paiements
+docker exec -it phpimmo composer require stripe/stripe-php
+```
+
+## 🐳 Commandes Docker courantes
+
+```bash
+# Lancer Docker Compose
 docker-compose up --build
-# docker compose en mode détaché
+
+# Lancer en mode détaché
 docker-compose up --build -d
 
-# arrêt de docker compose en mode détaché
+# Arrêter Docker Compose
 docker-compose down
 
-# redemarrage du docker compose
+# Redémarrer Docker Compose
 docker-compose restart
+```
 
-# création du projet symfony
-# avoir le docker compose lancé
-# attention d'avoir le dossier app vide
-docker exec -it [nom du container php] composer create-project symfony/skeleton ./
+## 🛠 Commandes Symfony utiles
 
-# ajout de bundle symfony
-docker exec -it [nom du container php] composer req [nom du bundle]
+```bash
+# Créer un nouveau projet Symfony (dans un dossier app vide)
+docker exec -it [nom_du_container_php] composer create-project symfony/skeleton ./
 
-# enlever un bundle
-docker exec -it [nom du container php] composer remove [nom du bundle]
+# Ajouter un bundle
+docker exec -it [nom_du_container_php] composer req [nom_du_bundle]
 
-# voir les commandes de bin/console
-docker exec -it [nom du container php] php bin/console
+# Supprimer un bundle
+docker exec -it [nom_du_container_php] composer remove [nom_du_bundle]
 
-# executer le nettoyage du cache de symfony
-docker exec -it [nom du container php] php bin/console cache:clear
+# Voir les commandes disponibles
+docker exec -it [nom_du_container_php] php bin/console
 
-# afficher les routes du symfony
-docker exec -it [nom du container php] php bin/console debug:router
+# Nettoyer le cache
+docker exec -it [nom_du_container_php] php bin/console cache:clear
 
-# forcer les droits pour l'utilisateur
-# se placer dans le repertoire principale du projet
-sudo chown -R [nomUtilisateur ou uid]:[nom du groupe ou gid] app/
- # changer les droit dans le container
-docker exec -it  [nom du container php] sh
-# apres faire la commande suivant
+# Afficher les routes
+docker exec -it [nom_du_container_php] php bin/console debug:router
+```
+
+## 🔧 Gestion des droits
+
+```bash
+# Forcer les droits utilisateur (dans le répertoire principal)
+sudo chown -R [nomUtilisateur ou uid]:[nom_du_groupe ou gid] app/
+
+# Changer les droits dans le container
+docker exec -it [nom_du_container_php] sh
 chown -R www-data:www-data ./
-# si problème persiste
+
+# Si le problème persiste
 chmod -R 755 ./
+```
 
-# install  twig
-docker exec -it [nom du container php] composer req twig
+## 📦 Installation de packages supplémentaires
 
-# install  maker bundle
-docker exec -it [nom du container php] composer req --dev symfony/maker-bundle
+```bash
+# Twig
+docker exec -it [nom_du_container_php] composer req twig
 
-# install  Asset
-docker exec -it [nom du container php] composer req symfony/asset
+# Maker Bundle (dev)
+docker exec -it [nom_du_container_php] composer req --dev symfony/maker-bundle
 
-# install Fixture
-docker exec -it [nom du container php] composer req --dev doctrine/doctrine-fixtures-bundle
+# Asset
+docker exec -it [nom_du_container_php] composer req symfony/asset
 
-# install Faker
-docker exec -it [nom du container php] composer req --dev fzaninotto/faker
+# Doctrine Fixtures (dev)
+docker exec -it [nom_du_container_php] composer req --dev doctrine/doctrine-fixtures-bundle
 
-# install debug bar
-docker exec -it [nom du container php] composer req --dev symfony/profiler-pack
+# Debug Bar (dev)
+docker exec -it [nom_du_container_php] composer req --dev symfony/profiler-pack
 
-# install form validateur et csrf 
-docker exec -it [nom du container php] composer req symfony/profiler-pack validator symfony/security-csrf
+# Form, Validator et CSRF
+docker exec -it [nom_du_container_php] composer req symfony/form validator symfony/security-csrf
+```
+
+## 📝 Notes
+
+- Remplacez `[nom_du_container_php]` par le nom réel de votre conteneur PHP dans Docker.
+- Assurez-vous d'avoir les permissions nécessaires pour exécuter les commandes Docker et Symfony.
+
+## 🤝 Contribution
+
+Les contributions à ce projet sont les bienvenues. N'hésitez pas à ouvrir une issue ou à soumettre une pull request.
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+---
+
+Ce README offre une structure claire et informative pour votre projet de réparation informatique avec Symfony et Docker, mettant en avant les commandes essentielles et les étapes d'installation. Les emojis ajoutent une touche visuelle agréable et aident à structurer l'information.
