@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Run docker-compose up --build
-docker-compose up --build -d
+docker compose up --build -d
 
 # Function to check if a command exists
 command_exists() {

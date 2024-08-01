@@ -1,5 +1,4 @@
-
-
+```markdown
 # 🛠 Projet Réparation Informatique - Symfony avec Docker
 
 Ce projet utilise Symfony et Docker pour créer une application de gestion de réparation informatique robuste et portable.
@@ -17,6 +16,8 @@ Ce projet utilise Symfony et Docker pour créer une application de gestion de r�
 2. Ouvrez un terminal et exécutez les commandes suivantes pour donner les permissions d'exécution aux scripts :
    ```bash
    chmod +x setup.sh
+   ```
+   ```bash
    chmod +x automate_setup.sh
    ```
 3. Cliquez droit sur `automate_setup.sh` -> "Exécuter comme un programme".
@@ -30,102 +31,97 @@ Ce projet utilise Symfony et Docker pour créer une application de gestion de r�
 Exécutez les commandes suivantes :
 
 ```bash
-# Installer les dépendances Composer
 docker exec -it phpimmo composer install
-
-# Installer les dépendances Yarn
+```
+```bash
 docker exec -it nodeimmo yarn
-
-# Compiler les assets
+```
+```bash
 docker exec -it nodeimmo yarn encore dev
-
-# Compiler les assets en mode watch
+```
+```bash
 docker exec -it nodeimmo yarn encore dev --watch
-
-# Installer AOS (Animate On Scroll)
+```
+```bash
 docker exec -it nodeimmo yarn add aos
-
-# Installer le notifier Symfony
+```
+```bash
 docker exec -it phpimmo composer require symfony/notifier
-
-# Installer Faker pour les données de test
+```
+```bash
 docker exec -it phpimmo composer require fakerphp/faker --dev
-
-# Installer Stripe pour les paiements
+```
+```bash
 docker exec -it phpimmo composer require stripe/stripe-php
 ```
 
 ## 🐳 Commandes Docker courantes
 
 ```bash
-# Lancer Docker Compose
 docker-compose up --build
-
-# Lancer en mode détaché
+```
+```bash
 docker-compose up --build -d
-
-# Arrêter Docker Compose
+```
+```bash
 docker-compose down
-
-# Redémarrer Docker Compose
+```
+```bash
 docker-compose restart
 ```
 
 ## 🛠 Commandes Symfony utiles
 
 ```bash
-# Créer un nouveau projet Symfony (dans un dossier app vide)
 docker exec -it [nom_du_container_php] composer create-project symfony/skeleton ./
-
-# Ajouter un bundle
+```
+```bash
 docker exec -it [nom_du_container_php] composer req [nom_du_bundle]
-
-# Supprimer un bundle
+```
+```bash
 docker exec -it [nom_du_container_php] composer remove [nom_du_bundle]
-
-# Voir les commandes disponibles
+```
+```bash
 docker exec -it [nom_du_container_php] php bin/console
-
-# Nettoyer le cache
+```
+```bash
 docker exec -it [nom_du_container_php] php bin/console cache:clear
-
-# Afficher les routes
+```
+```bash
 docker exec -it [nom_du_container_php] php bin/console debug:router
 ```
 
 ## 🔧 Gestion des droits
 
 ```bash
-# Forcer les droits utilisateur (dans le répertoire principal)
 sudo chown -R [nomUtilisateur ou uid]:[nom_du_groupe ou gid] app/
-
-# Changer les droits dans le container
+```
+```bash
 docker exec -it [nom_du_container_php] sh
 chown -R www-data:www-data ./
-
-# Si le problème persiste
+```
+```bash
 chmod -R 755 ./
 ```
 
 ## 📦 Installation de packages supplémentaires
 
 ```bash
-# Twig
 docker exec -it [nom_du_container_php] composer req twig
-
-# Maker Bundle (dev)
+```
+```bash
 docker exec -it [nom_du_container_php] composer req --dev symfony/maker-bundle
-
-# Asset
+```
+```bash
 docker exec -it [nom_du_container_php] composer req symfony/asset
-
-# Doctrine Fixtures (dev)
+```
+```bash
 docker exec -it [nom_du_container_php] composer req --dev doctrine/doctrine-fixtures-bundle
-
-# Debug Bar (dev)
+```
+```bash
 docker exec -it [nom_du_container_php] composer req --dev symfony/profiler-pack
-
-# Form, Validator et CSRF
+```
+```bash
 docker exec -it [nom_du_container_php] composer req symfony/form validator symfony/security-csrf
 ```
 
@@ -143,5 +139,4 @@ Les contributions à ce projet sont les bienvenues. N'hésitez pas à ouvrir une
 Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 ---
-
-Ce README offre une structure claire et informative pour votre projet de réparation informatique avec Symfony et Docker, mettant en avant les commandes essentielles et les étapes d'installation. Les emojis ajoutent une touche visuelle agréable et aident à structurer l'information.
+```
